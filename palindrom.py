@@ -1,5 +1,5 @@
 import re
-source="rotator"
+source="rotato"
 goal = "rot ator"
 tem = re.sub(' ' ,'',goal)
 def reverse(s):
@@ -10,8 +10,8 @@ def reverse(s):
         i-=1
     return a
 tem=reverse(tem)    
-if source.__reversed__():
+if tem == source:
     print(True)
-#else:
-#    print(False)
+else:
+    print(False)
 
