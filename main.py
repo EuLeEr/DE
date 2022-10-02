@@ -7,10 +7,12 @@
 #from dbm import dumb
 from time import sleep
 from types import NoneType
-import lxml
 
-import requests as req
+
 import json
+import lxml
+import requests as req
+
 from bs4 import BeautifulSoup
 data = { "data":[]}
 
@@ -21,15 +23,18 @@ soup = BeautifulSoup(resp.text,"lxml");
 tagPagers = soup.find_all(attrs={"class":"bloko-button"})
 for item in tagPagers:
     Pager = item.text
-    if Pager != None and Pager.isnumeric():
+    if Pager is not None and Pager.isnumeric():
         lastPage = Pager
-for page in range(1,3): #int(lastPage)+2):
+for page in range(1,int(lastPage)+2):
+    sleep(10)
     print(page)
     url_page = f"https://hh.ru/search/vacancy?text=Python+%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%87%D0%B8%D0%BA&from=suggest_post&area=113&page={page-1}&hhtmFrom=vacancy_search_list"
     resp_page = req.get(url_page,headers = header)
     soup_page = BeautifulSoup(resp_page.text,"lxml");
-    tags = soup_page.find_all(string={"serp-item__title"})
+#    print(soup_page)
+    tags = soup_page.find_all(attrs={"data-qa":"serp-item__title"})
     for item  in tags:
+        print(item)
         name = item.find(attrs={"target":"_blank"})   
         if type(name) != NoneType:   # = item.find(attrs={"target":"_blank"})
             NameVacancy = name.text
