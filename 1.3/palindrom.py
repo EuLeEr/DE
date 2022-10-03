@@ -1,7 +1,6 @@
 import re
-source="rotato"
-goal = "rot ator"
-tem = re.sub(' ' ,'',goal)
+source=input("Введите строку для проверки на палиндром:")
+source = re.sub(' ' ,'',source)
 def reverse(s):
     a=""
     i=len(s)-1
@@ -9,7 +8,7 @@ def reverse(s):
         a=a+s[i]
         i-=1
     return a
-tem=reverse(tem)    
+tem=reverse(source)    
 if tem == source:
     print(True)
 else:
