@@ -1,1 +1,4 @@
 env/*
+c_cpp_properties.json
+launch.json
+tasks.json
