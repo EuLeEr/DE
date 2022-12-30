@@ -109,5 +109,4 @@
    При этом в PySpark из Jupyter NoteBook и DBeaver - операции выполнятся. Предстоит наcтроить. Пока в запросах роль отборов
    по спискам выполняют заглушки в виде %слов%
 
-# Код витрин компилируется из ClientOrders.scala. Необходимо склонировать репозиторий git clone https://github.com/EuLeEr/DE.git. В папке репозитория перейти в папку Graduate_work.
-   Создвть папку Data/Source, положить туда CSV файлы источники. Ззапустить sbt run в командной строке в папке Graduate_work. При этом в папке Graduate_work/Data будут созданы файлы с данными для витрин в формате parquet. 
+# Код витрин компилируется из ClientOrders.scala. Необходимо склонировать репозиторий git clone https://github.com/EuLeEr/DE.git. В папке репозитория перейти в папку Graduate_work.   Создать папку Data/Source, положить туда CSV файлы источники. Запустить sbt run в командной строке в папке Graduate_work. При этом в папке Graduate_work/Data будут созданы файлы с данными для витрин в формате parquet. 
