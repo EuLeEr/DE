@@ -3,3 +3,8 @@ c_cpp_properties.json
 launch.json
 tasks.json
 docker-hadoop-spark-workbench/*
+Graduate_work/Data/*
+Graduate_work/examples/*
+Graduate_work/project/*
+Graduate_work/target/*
+Graduate_work/null/*
