@@ -1,3 +1,4 @@
+@nowarn
 //spark read data from cvs file
 
 import org.apache.spark.sql.SparkSession
@@ -12,7 +13,7 @@ object ClientsOrders extends App {
   val spark = SparkSession
         .builder()
         .appName("Spark Data Showcases")
-        .config("spark.jars", "C:\spark-3.3.1-bin-hadoop3\jars\postgresql-42.5.1.jar") \
+        .config("spark.jars", "C:\\spark-3.3.1-bin-hadoop3\\jars\\postgresql-42.5.1.jar") 
         .config("spark.master", "local")
         .getOrCreate()
 
@@ -113,15 +114,18 @@ object ClientsOrders extends App {
   //   .option("url", "jdbc:postgresql://0.0.0.0:5432/test") \
   //   .option("driver", "org.postgresql.Driver").option("dbtable", "lk2") \
   //   .option("user", "postgres").option("password", "postgres").save()
-  val dfLists = spark.createDataFrame().select("listName","Content").read.format("jdbc")
-    .option("url", "jdbc:postgresql:////0.0.0.0:5432/test") 
-    .option("driver", "org.postgresql.Driver")
-    .option("dbtable", "lists") 
-    .option("user", "postgres")
-    .option("password", "postgres")
-    .load()
-  //spark.read.jdbc(url, "lists", properties).collect(), schemaLists)
-  
+//   val dfLists = spark.createDataFrame().select("listName","Content").read.format("jdbc")
+//     .option("url", "jdbc:postgresql:////0.0.0.0:5432/test") 
+//     .option("driver", "org.postgresql.Driver")
+//     .option("dbtable", "lists") 
+//     .option("user", "postgres")
+//     .option("password", "postgres")
+//     .load()
+//   //spark.read.jdbc(url, "lists", properties).collect(), schemaLists)
+
+// //Scala split string "%vin%,%viн:%, %fоrd%, %мiтsuвisнi%,  %нissан%, %sсанiа%, %вмw%, %реugеот%,  %vоlкswаgен%,  %sкоdа%,  %rover%    into array of string
+// val dfLists = dfLists.withColumn("Content", split(col("Content"), ","))
+// dfLists.show()
 //Витрина _corporate_payments_. Строится по каждому уникальному счету (AccountDB  и AccountCR) из таблицы Operation. Ключ партиции CutoffDt
 val dfRateCurrent = dfRate.groupBy("Currency").agg(max("RateDate").alias("RateDate")).join(dfRate, Seq("Currency","RateDate")).select("Currency","RateDate","Rate")
 dfRateCurrent.createOrReplaceTempView("RateCurrent");
@@ -146,8 +150,14 @@ val dfCarsAmt = dfCarsAmtCurrency.groupBy("AccountDB", "CutoffDt" ).agg(sum("Car
 val dfFoodAmtCurrency = spark.sql("select AccountCR, DateOp as CutoffDt , round(sum(Amount * RateCurrent.Rate),2) as FoodAmt  from CorporatePayments  join RateCurrent on (RateCurrent.Currency = CorporatePayments.Currency and RateCurrent.RateDate <= CorporatePayments.DateOp) where  (Comment like '%Еда%' or Comment like '%алко%') group by  CorporatePayments.AccountCR, CorporatePayments.DateOp, CorporatePayments.Currency, RateCurrent.Rate")
 val dfFoodAmt = dfFoodAmtCurrency.groupBy("AccountCR", "CutoffDt" ).agg(sum("FoodAmt").as("FoodAmt"))
 //FLAmt Сумма операций с физ. лицами. Счет клиента указан в дебете проводки, а клиент в кредите проводки – ФЛ.
-var dfFLAmtCurrency = spark.sql("select AccountDB, DateOp as CutoffDt , round(sum(Amount * RateCurrent.Rate),2) as FLAmt , RateCurrent.Rate, CorporatePayments.Currency from CorporatePayments  join RateCurrent on (RateCurrent.Currency = CorporatePayments.Currency and RateCurrent.RateDate <= CorporatePayments.DateOp) join Accounts on  AccountCR = AccountID  join Clients on Accounts.ClientId = Clients.ClientId where (Clients.Type = 'Ф' and AccountDB = 4915) group by  CorporatePayments.AccountDB, CorporatePayments.DateOp, CorporatePayments.Currency, RateCurrent.Rate")
-val dfFLAmt = dfFLAmtCurrency.groupBy("AccountDB","CutoffDt").agg(sum("FLAmt").as("FLAmt"))
+var dfFLAmtCurrency = spark.sql("select AccountDB, DateOp as CutoffDt , round(sum(Amount * RateCurrent.Rate),2) as FLAmt , RateCurrent.Rate, CorporatePayments.Currency from CorporatePayments  join RateCurrent on (RateCurrent.Currency = CorporatePayments.Currency and RateCurrent.RateDate <= CorporatePayments.DateOp) join Accounts on  AccountCR = AccountID  join Clients on Accounts.ClientId = Clients.ClientId where Clients.Type = 'Ф' group by  CorporatePayments.AccountDB, CorporatePayments.DateOp, CorporatePayments.Currency, RateCurrent.Rate")
+val dfFLAmt = dfFLAmtCurrency.groupBy("AccountDB","CutoffDt").agg(round(sum("FLAmt"),2).as("FLAmt"))
+// Full corporate payments
+dfAccountPayments.show()
+dfFLAmt.show()
+val dfCorporatePayments = dfAccountPayments.join(dfTaxAmt, Seq("AccountDB", "CutoffDt"), "outer").join(dfCarsAmt, Seq("AccountDB", "CutoffDt"), "outer").join(dfFLAmt, Seq("AccountDB", "CutoffDt"), "outer")
+//val dfCorporatePayments = dfTaxAmt.join(dfClearAmt, Seq("AccountCR", "CutoffDt"), "outer").join(dfCarsAmt, Seq("AccountDB", "CutoffDt"), "outer").join(dfFoodAmt, Seq("AccountCR", "CutoffDt"), "outer").join(dfFLAmt, Seq("AccountDB", "CutoffDt"), "outer")
+dfCorporatePayments.show()
 //val dfCorporatePayments = dfAccountPayments.join(dfAccountEnrollement, Seq("CutoffDt","Currency"), "outer")
 //dfCorporatePayments.write.mode("overwrite").partitionBy("CutoffDt").parquet("Data/CorporatePayments.parquet")
 

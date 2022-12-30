@@ -55,7 +55,7 @@ def AllRandom():
 
     
 # A DAG represents a workflow, a collection of tasks
-with DAG(dag_id="Excersize_3_6_dag", start_date=datetime(2022, 1, 1), schedule="*/5 * * * *") as dag:
+with DAG(dag_id="Exersize_3_6_dag", start_date=datetime(2022, 1, 1), schedule="*/5 * * * *") as dag:
     
 
 
