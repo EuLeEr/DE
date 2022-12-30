@@ -99,7 +99,7 @@
 2. Подготовка системного программного обеспечения для Windows
     1. Установить [Postgres](https://www.postgresql.org/download/windows/ "Postgres") и [DBeaver](https://dbeaver.io/download/ "DBeaver")
     2. Установить [Git](https://git-scm.com/downloads "Git")
-    3. Установить [Java](https://bell-sw.com/pages/downloads/#/java-11-lts) "Liberica JDK 11.0.17"). Добавить в переменную окружения Path путь "Папка установки Java\bin".  Установить переменную окружения JAVA_HOME путь "Папка установки Java". Проверить установку командой java -version. 
+    3. Установить [Java](https://bell-sw.com/pages/downloads/#/java-11-lts) "Liberica JDK 11.0.17". Добавить в переменную окружения Path путь "Папка установки Java\bin".  Установить переменную окружения JAVA_HOME путь "Папка установки Java". Проверить установку командой java -version. 
     4. Установить [Apache Spark for Hadoop](https://spark.apache.org/downloads.html "Apache Spark"). Загрузить и распаковать в папку C:\ файл spark-3.3.1-bin-hadoop3.tgz. Добавить в переменную окружения SPARK_HOME путь "C:\spark-3.3.1-bin-hadoop3.2". Добавить в переменную окружения Path путь %SPARK_HOME%\bin. Проверить установку командой spark-shell. 
     5. Склонировать репозиторий git clone https://github.com/cdarlint/winutils.git. Скопировать из полученного содержимое последней версии папки winutils/hadoop-3.x.x в папку %SPARK_HOME%\bin. Добавить в переменную окружения HADOOP_HOME путь "C:\spark-3.3.1-bin-hadoop3.2". Проверить установку командой hadoop - должна вывести набор доступных команд.    
     6. Установить [Scala](https://www.scala-lang.org/download/ "Scala") по инструкции с сайта (based on Coursier). Проверить установку командой scala -version.
