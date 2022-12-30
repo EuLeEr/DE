@@ -105,9 +105,9 @@
     6. Установить [Scala](https://www.scala-lang.org/download/ "Scala") по инструкции с сайта (based on Coursier). Проверить установку командой scala -version.
 
 
-1. Из неработающего кода - нет возможности прочитать значения списков из Postgres из Spark Scala 3.3.1. под Windows 11 
-   При этом в PySpark из Jupyter NoteBook и DBeaver - операции выполнятся. Престоит наcтроить. Пока в запросах роль отборов
+### Из неработающего кода - нет возможности прочитать значения списков из Postgres из Spark Scala 3.3.1. под Windows 11 
+   При этом в PySpark из Jupyter NoteBook и DBeaver - операции выполнятся. Предстоит наcтроить. Пока в запросах роль отборов
    по спискам выполняют заглушки в виде %слов%
 
-3. Код витрин компилируется из ClientOrders.scala
-4. Невразумительный comment "mend" в commit из-за спешки ;-(   
+# Код витрин компилируется из ClientOrders.scala. Необходимо склонировать репозиторий git clone https://github.com/EuLeEr/DE.git. В папке репозитория перейти в папку Graduate_work.
+   Создвть папку Data/Source, положить туда CSV файлы источники. Ззапустить sbt run в командной строке в папке Graduate_work. При этом в папке Graduate_work/Data будут созданы файлы с данными для витрин в формате parquet. 
